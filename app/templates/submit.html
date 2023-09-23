@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question or Write a Story</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Write a Story and ask a question</h1>
+        <h2>Vocabulary</h2>
+        <p>to, bathroom, office, yes, moved, Sandra, garden, Is, the, Daniel, in, went, grabbed, hallway, apple, '?', left, got, dropped, discarded, journeyed, Mary, travelled, football
+        ,no, John, bedroom, kitchen, up, '.', picked, there, back, put, down, took, milk</p>
+        <div class="input-container">
+            <label for="story">Story:</label>
+            <input type="text" id="story" placeholder="Write a story...">
+        </div>
+        <div class="input-container">
+            <label for="question">Question:</label>
+            <textarea id="question" placeholder="Ask a question..."></textarea>
+        </div>
+        <div class="input-container">
+            <label for="answer">Answer:</label>
+            <textarea id="answer" placeholder="Your answer..."></textarea>
+        </div>
+        <button id="submit">Submit</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const storyInput = document.getElementById('story');
+        const questionInput = document.getElementById('question');
+        const answerInput = document.getElementById('answer');
+        const submitButton = document.getElementById('submit');
+        const resultContainer = document.getElementById('result');
+
+        submitButton.addEventListener('click', () => {
+            const question = questionInput.value.trim();
+            const story = storyInput.value.trim();
+            const answer = answerInput.value.trim();
+        
+
+
+            console.info('data', data)
+            if (!question && !story) {
+                resultContainer.innerHTML = 'Please enter a question or a story.';
+            } else {
+                // You can replace this logic to send the question and story to your AI
+                fetch('/predict', {
+                    method: 'POST',
+                    headers:{'Content-Type': 'application/json'},
+                    body: JSON.stringify({story, question, answer})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const pred_answer = data.pred_answer;
+                    resultContainer.innerHTML = pred_answer;
+                })
+                .catch(error => {
+                    console.error('Error::', error)
+                })
+            }
+        });
+
+        // Simulate AI response (you can replace this with real AI integration)
+        function simulateAIResponse(question, story) {
+            if (question) {
+                return `You asked: "${question}" - AI's answer goes here.`;
+            } else {
+                return `Your story: "${story}" - AI's response to the story goes here.`;
+            }
+        }
+    </script>
+</body>
+</html>
